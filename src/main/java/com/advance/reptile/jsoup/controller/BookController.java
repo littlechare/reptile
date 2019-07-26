@@ -3,7 +3,9 @@ package com.advance.reptile.jsoup.controller;
 
 import com.advance.reptile.common.CommonUtils;
 import com.advance.reptile.common.Response;
+import com.advance.reptile.jsoup.entity.Book;
 import com.advance.reptile.jsoup.service.IBookService;
+import com.advance.reptile.mongoDb.service.ChapterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -26,7 +28,8 @@ public class BookController {
 
     @Autowired
     private IBookService bookService;
-
+    @Autowired
+    private ChapterService chapterService;
     /**
      * 爬取书籍信息
      * @param param
@@ -35,7 +38,8 @@ public class BookController {
     @RequestMapping(value = "getBook")
     public Response getBook(@RequestParam Map<String, String> param){
         String path = CommonUtils.hanldNull(param.get("path"));
-        bookService.getBook(path);
+        Book book = bookService.getBook(path);
+
         return Response.success();
     }
 

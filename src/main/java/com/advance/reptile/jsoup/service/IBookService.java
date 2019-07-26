@@ -17,7 +17,7 @@ import java.util.List;
  */
 public interface IBookService extends IService<Book> {
 
-    void getBook(String path);
+    Book getBook(String id);
 
     void saveDocIntoBook(Document document, String path);
 

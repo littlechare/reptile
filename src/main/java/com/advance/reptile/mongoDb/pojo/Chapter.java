@@ -4,6 +4,7 @@ import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -30,7 +31,11 @@ public class Chapter implements Serializable{
     @Field("dataStatus")
     private String dataStatus;//数据状态
 
+    @Field("bookId")
+    private String bookId;
+
     @Field("dataTime")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime dataTime;//数据操作时间
 
 }
