@@ -1,15 +1,15 @@
 package com.advance.reptile.mongoDb.dao;
 
-import com.advance.reptile.mongoDb.pojo.Chapter;
+import com.advance.reptile.mongoDb.pojo.ChapterMogo;
 import org.springframework.stereotype.Repository;
 
 /**
  * 章节dao层
  */
 @Repository
-public class ChapterRepository extends BaseMongoRepository<Chapter>{
+public class ChapterRepository extends BaseMongoRepository<ChapterMogo>{
     @Override
     protected Class getEntityClass() {
-        return Chapter.class;
+        return ChapterMogo.class;
     }
 }

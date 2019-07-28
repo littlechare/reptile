@@ -1,17 +1,21 @@
 package com.advance.reptile.jsoup.service.impl;
 
-import com.advance.reptile.common.Response;
+import com.advance.reptile.common.CommonUtils;
+import com.advance.reptile.jsoup.JsoupConstant;
 import com.advance.reptile.jsoup.entity.Book;
 import com.advance.reptile.jsoup.mapper.BookMapper;
 import com.advance.reptile.jsoup.service.IBookService;
 import com.advance.reptile.jsoup.utils.JsoupUtil;
-import com.advance.reptile.mongoDb.pojo.Chapter;
+import com.advance.reptile.jsoup.vo.JsoupSaveDataVo;
+import com.advance.reptile.mongoDb.pojo.ChapterMogo;
+import com.advance.reptile.mongoDb.service.ChapterService;
+import com.advance.reptile.reader.entity.Chapter;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -34,8 +38,11 @@ public class BookServiceImpl extends ServiceImpl<BookMapper, Book> implements IB
 
     @Autowired
     private BookMapper bookMapper;
+    @Autowired
+    private ChapterService chapterService;
 
-    private final static String BASEIC_URL = "http://www.xinshubao.net/7/7828/";
+    @Value("${sysConstant.BASE_URL}")
+    private String BASEIC_URL;
 
     @Override
     public Book getBook(String id) {
@@ -44,18 +51,16 @@ public class BookServiceImpl extends ServiceImpl<BookMapper, Book> implements IB
 
     @Override
     public void saveDocIntoBook(Document doc, String path) {
-        String bookName = doc.select("#info h1").text();
-        String author = doc.select("#info p").eq(0).text();
-        String status = doc.select("#info p").eq(1).text();
-        String last_update = doc.select("#info p").eq(3).text();
-        String intro = doc.select("#intro p").text();
-        Elements links = doc.select("#list ._chapter a[href]");
-        String startUrl = links.eq(0).attr("href");
+        String bookName = JsoupUtil.getElementText(doc, JsoupConstant.CSS_QUERY_OF_BOOK_NAME);
+        String author = JsoupUtil.parseDom(doc, JsoupConstant.CSS_QUERY_OF_BOOK_INFO).eq(0).text();
+        String status = JsoupUtil.parseDom(doc, JsoupConstant.CSS_QUERY_OF_BOOK_INFO).eq(1).text();
+        String last_update = JsoupUtil.parseDom(doc, JsoupConstant.CSS_QUERY_OF_BOOK_INFO).eq(3).text();
+        String intro = JsoupUtil.getElementText(doc, JsoupConstant.CSS_QUERY_OF_BOOK_INFO);
         Book book = new Book();
         book.setName(bookName);
         book.setAuthor(author);
         book.setLastUpdateTime(last_update);
-        book.setUrl(path);
+        book.setUrl(BASEIC_URL);
         book.setIntro(intro);
         book.setStatus(status);
         saveBook(book);
@@ -66,30 +71,53 @@ public class BookServiceImpl extends ServiceImpl<BookMapper, Book> implements IB
         bookMapper.insert(book);
     }
 
-    private void saveChapter(String srartUrl, Chapter chapter) throws IOException {
-        String next = Jsoup.connect(srartUrl).get().select(".bottem1 p:eq(1) a:eq(3)").attr("href");
-
-        if(!(srartUrl.lastIndexOf("_") > -1)){
-            String title = Jsoup.connect(srartUrl).get().select(".bookname h1").text();
-            System.err.println(chapter.getTxt());
-            chapter = new Chapter();
-            chapter.setUrl(srartUrl);
+    public void doNext(String url, ChapterMogo chapter, JsoupSaveDataVo dataVo) throws IOException {
+        //获取文档内容
+        Document document = JsoupUtil.parseUrlHtml(url);
+        //获取下一章url地址
+        String next = JsoupUtil.getElementAttr(document, JsoupConstant.CSS_QUERY_OF_NEXT_CHAPTER_URL, "href");
+        //不包含_的视为本章开头
+        if(!(url.lastIndexOf("_") > -1)){
+            chapter.setCharpterNum(chapter.getCharpterNum() + 1);
+            //内容不为空保存
+            if(CommonUtils.objNotEmpty(chapter.getTxt())){
+                saveMysqlChapter(chapter);
+                //保存至mongoDb
+                chapterService.insertDocument(chapter);
+            }
+            String title = JsoupUtil.getElementText(document, JsoupConstant.CSS_QUERY_OF_CHAPTER_TITLE);
+            chapter = new ChapterMogo();
+            chapter.setUrl(url);
             chapter.setDataTime(LocalDateTime.now());
             chapter.setDataStatus("1");
-            chapter.setBookId("");
-            chapter.setTxt(Jsoup.connect(srartUrl).get().select("#content").text().trim().replaceAll("br/>",""));
+            chapter.setChapterId(dataVo.getCharpterId());
+            chapter.setNextId(dataVo.getNext());
+            chapter.setNextTitle(dataVo.getNextTitle());
+            chapter.setPreId(dataVo.getPre());
+            chapter.setPreTitle(dataVo.getPreTitle());
+            chapter.setTxt(JsoupUtil.getElementText(document, JsoupConstant.CSS_QUERY_OF_CHAPTER_CONTENT).trim().replaceAll("br/>",""));
             chapter.setTitle(title);
-//			System.err.println("--------------------------------"+Jsoup.connect(url).get().select(".bookname h1").text()+"----------------------------------");
         }else{
-            chapter.setTxt(chapter.getTxt() + Jsoup.connect(srartUrl).get().select("#content").text().trim().replaceAll("br/>",""));
+            chapter.setTxt(chapter.getTxt() + JsoupUtil.getElementText(document, JsoupConstant.CSS_QUERY_OF_CHAPTER_CONTENT).trim().replaceAll("br/>",""));
         }
-//		System.err.println(Jsoup.connect(url).get().select("#content").text().trim().replaceAll("br/>",""));
-        if(srartUrl.equals(BASEIC_URL)){
+        if(url.equals(BASEIC_URL)){
+            System.err.println("-------结束--------");
+            chapterService.insertDocument(chapter);
             return;
         }
-        srartUrl = BASEIC_URL + next;
+        url = BASEIC_URL + next;
 
-        saveChapter(srartUrl, chapter);
+        doNext(url, chapter, dataVo);
+    }
+
+    private void saveMysqlChapter(ChapterMogo mogo){
+        Chapter chapter = new Chapter();
+        chapter.setId(CommonUtils.getUuid());
+        chapter.setTitle(mogo.getTitle());
+        chapter.setUrl(mogo.getUrl());
+        chapter.setNum(mogo.getCharpterNum());
+        chapter.setPre(mogo.getPreId());
+        chapter.setNext(mogo.getNextId());
     }
 
     @Override

@@ -5,6 +5,10 @@ application:
   author: advance
   version: V1.0
   realName: 周韩
+
+sysConstant:
+  BASE_URL: http://www.xinshubao.net/7/7828/
+
 #项目部署配置
 server:
   port: 80

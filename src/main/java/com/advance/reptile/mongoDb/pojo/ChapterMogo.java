@@ -10,11 +10,11 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
- * 章节
+ * MongoDb章节
  */
 @Document
 @Data
-public class Chapter implements Serializable{
+public class ChapterMogo implements Serializable{
 
     @Id
     private String id;
@@ -28,11 +28,26 @@ public class Chapter implements Serializable{
     @Field("url")
     private String url;//连接
 
+    @Field("charpterNum")
+    private int charpterNum; // 章节数
+
     @Field("dataStatus")
     private String dataStatus;//数据状态
 
-    @Field("bookId")
-    private String bookId;
+    @Field("chapterId")
+    private String chapterId; //对应的Mysql章节ID
+
+    @Field("preId")
+    private String preId; //上一节ID
+
+    @Field("preTitle")
+    private String preTitle; //上一节标题
+
+    @Field("nextId")
+    private String nextId;//下一节ID
+
+    @Field("nextTitle")
+    private String nextTitle;//下一节标题
 
     @Field("dataTime")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
