@@ -3,7 +3,7 @@ package com.advance.reptile.jsoup.controller;
 
 import com.advance.reptile.common.CommonUtils;
 import com.advance.reptile.common.Response;
-import com.advance.reptile.jsoup.entity.Book;
+import com.advance.reptile.jsoup.entity.MongoBook;
 import com.advance.reptile.jsoup.service.IBookService;
 import com.advance.reptile.mongoDb.service.ChapterService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +22,7 @@ import java.util.Map;
  * @author author
  * @since 2019-06-28
  */
-@RestController
+@RestController(value = "mongoBookController")
 @RequestMapping("/jsoup/book")
 public class BookController {
 
@@ -38,7 +38,7 @@ public class BookController {
     @RequestMapping(value = "getBook")
     public Response getBook(@RequestParam Map<String, String> param){
         String path = CommonUtils.hanldNull(param.get("path"));
-        Book book = bookService.getBook(path);
+        MongoBook book = bookService.getBook(path);
 
         return Response.success();
     }

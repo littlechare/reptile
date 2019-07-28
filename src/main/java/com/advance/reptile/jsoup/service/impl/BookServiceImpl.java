@@ -2,8 +2,8 @@ package com.advance.reptile.jsoup.service.impl;
 
 import com.advance.reptile.common.CommonUtils;
 import com.advance.reptile.jsoup.JsoupConstant;
-import com.advance.reptile.jsoup.entity.Book;
-import com.advance.reptile.jsoup.mapper.BookMapper;
+import com.advance.reptile.jsoup.entity.MongoBook;
+import com.advance.reptile.jsoup.mapper.MongoBookMapper;
 import com.advance.reptile.jsoup.service.IBookService;
 import com.advance.reptile.jsoup.utils.JsoupUtil;
 import com.advance.reptile.jsoup.vo.JsoupSaveDataVo;
@@ -33,11 +33,11 @@ import java.util.Map;
  * @author author
  * @since 2019-06-28
  */
-@Service
-public class BookServiceImpl extends ServiceImpl<BookMapper, Book> implements IBookService {
+@Service(value = "mongoBookService")
+public class BookServiceImpl extends ServiceImpl<MongoBookMapper, MongoBook> implements IBookService {
 
     @Autowired
-    private BookMapper bookMapper;
+    private MongoBookMapper bookMapper;
     @Autowired
     private ChapterService chapterService;
 
@@ -45,7 +45,7 @@ public class BookServiceImpl extends ServiceImpl<BookMapper, Book> implements IB
     private String BASEIC_URL;
 
     @Override
-    public Book getBook(String id) {
+    public MongoBook getBook(String id) {
         return bookMapper.selectById(id);
     }
 
@@ -56,7 +56,7 @@ public class BookServiceImpl extends ServiceImpl<BookMapper, Book> implements IB
         String status = JsoupUtil.parseDom(doc, JsoupConstant.CSS_QUERY_OF_BOOK_INFO).eq(1).text();
         String last_update = JsoupUtil.parseDom(doc, JsoupConstant.CSS_QUERY_OF_BOOK_INFO).eq(3).text();
         String intro = JsoupUtil.getElementText(doc, JsoupConstant.CSS_QUERY_OF_BOOK_INFO);
-        Book book = new Book();
+        MongoBook book = new MongoBook();
         book.setName(bookName);
         book.setAuthor(author);
         book.setLastUpdateTime(last_update);
@@ -67,7 +67,7 @@ public class BookServiceImpl extends ServiceImpl<BookMapper, Book> implements IB
     }
 
     @Override
-    public void saveBook(Book book) {
+    public void saveBook(MongoBook book) {
         bookMapper.insert(book);
     }
 

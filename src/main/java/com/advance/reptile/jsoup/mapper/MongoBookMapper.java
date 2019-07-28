@@ -1,6 +1,6 @@
 package com.advance.reptile.jsoup.mapper;
 
-import com.advance.reptile.jsoup.entity.Book;
+import com.advance.reptile.jsoup.entity.MongoBook;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author author
  * @since 2019-06-28
  */
-public interface BookMapper extends BaseMapper<Book> {
+public interface MongoBookMapper extends BaseMapper<MongoBook> {
 
 }

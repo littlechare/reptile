@@ -1,7 +1,6 @@
 package com.advance.reptile.jsoup.service;
 
-import com.advance.reptile.common.Response;
-import com.advance.reptile.jsoup.entity.Book;
+import com.advance.reptile.jsoup.entity.MongoBook;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.jsoup.nodes.Document;
 
@@ -15,13 +14,13 @@ import java.util.List;
  * @author author
  * @since 2019-06-28
  */
-public interface IBookService extends IService<Book> {
+public interface IBookService extends IService<MongoBook> {
 
-    Book getBook(String id);
+    MongoBook getBook(String id);
 
     void saveDocIntoBook(Document document, String path);
 
-    void saveBook(Book book);
+    void saveBook(MongoBook book);
 
     List<String> getChapterLinks(Document doc);
 }
