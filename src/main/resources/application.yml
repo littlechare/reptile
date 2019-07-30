@@ -29,7 +29,7 @@ spring:
     mongodb:
       database: reptile
       #地址
-      host: 127.0.0.1
+      host: 134.175.3.16
       #端口号
       port: 27017
 
