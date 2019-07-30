@@ -1,4 +1,4 @@
-package com.advance.reptile.jsoup;
+package com.advance.reptile.jsoup.constant;
 
 /**
  *  jsoup常量类

@@ -1,9 +1,15 @@
 package com.advance.reptile.reader.controller;
 
 
-import org.springframework.web.bind.annotation.RequestMapping;
+import com.advance.reptile.common.CommonUtils;
+import com.advance.reptile.common.Response;
+import com.advance.reptile.mongoDb.service.ChapterService;
+import com.advance.reptile.reader.entity.Book;
+import com.advance.reptile.reader.service.IBookService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
-import org.springframework.web.bind.annotation.RestController;
+import java.util.Map;
 
 /**
  * <p>
@@ -15,6 +21,27 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/reader/book")
+@CrossOrigin
 public class BookController {
+
+    @Autowired
+    private IBookService bookService;
+    @Autowired
+    private ChapterService chapterService;
+    /**
+     * 爬取书籍信息
+     * @param id
+     * @return
+     */
+    @RequestMapping(value = "/getBook/{id}")
+    public Response getBook(@PathVariable("id")String id){
+        Book book = bookService.getBook(id);
+        return Response.success(book);
+    }
+
+    @RequestMapping(value = "/getBooks")
+    public Response getBooks(){
+        return Response.success(bookService.list());
+    }
 
 }
