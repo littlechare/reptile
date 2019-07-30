@@ -10,12 +10,12 @@ import com.advance.reptile.reader.entity.Book;
 import com.advance.reptile.reader.entity.Chapter;
 import com.advance.reptile.reader.mapper.BookMapper;
 import com.advance.reptile.reader.service.IBookService;
+import com.advance.reptile.reader.service.IChapterService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -40,6 +40,8 @@ public class BookServiceImpl extends ServiceImpl<BookMapper, Book> implements IB
     private BookMapper bookMapper;
     @Autowired
     private ChapterService chapterService;
+    @Autowired
+    private IChapterService mysqlChpterService;
 
     private String BASEIC_URL = "http://www.xinshubao.net/7/7828/";
 
@@ -109,6 +111,10 @@ public class BookServiceImpl extends ServiceImpl<BookMapper, Book> implements IB
         doNext(url, chapter, dataVo);
     }
 
+    /**
+     * 保存mysql章节信息
+     * @param mogo
+     */
     private void saveMysqlChapter(ChapterMogo mogo){
         Chapter chapter = new Chapter();
         chapter.setId(CommonUtils.getUuid());
@@ -117,6 +123,7 @@ public class BookServiceImpl extends ServiceImpl<BookMapper, Book> implements IB
         chapter.setNum(mogo.getCharpterNum());
         chapter.setPre(mogo.getPreId());
         chapter.setNext(mogo.getNextId());
+        mysqlChpterService.save(chapter);
     }
 
     @Override
