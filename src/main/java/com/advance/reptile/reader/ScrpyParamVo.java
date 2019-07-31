@@ -16,6 +16,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ScrpyParamVo {
 
-    private String path;
+    private String startUrl;
+
+    private String baseUrl;
 
 }

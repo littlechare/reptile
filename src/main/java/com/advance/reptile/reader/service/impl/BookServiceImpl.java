@@ -79,7 +79,7 @@ public class BookServiceImpl extends ServiceImpl<BookMapper, Book> implements IB
     }
 
     public void doNext(String url, ChapterMogo chapter, JsoupSaveDataVo dataVo) throws IOException {
-        if(url.equals(URL_PREFIX)){
+        if(url.equals(dataVo.getBaseUrl())){
             chapter.setCharpterNum(chapter.getCharpterNum() + 1);
             chapter.setNextTitle("无");
             chapter.setNextId("");
@@ -94,8 +94,8 @@ public class BookServiceImpl extends ServiceImpl<BookMapper, Book> implements IB
         //获取下一章url地址
         String next = JsoupUtil.getElementAttr(document, JsoupConstant.CSS_QUERY_OF_NEXT_CHAPTER_URL, "href");
         if(!(next.lastIndexOf("_") > -1)){
-            if(!next.equals(URL_PREFIX)){
-                dataVo.setNextTitle(JsoupUtil.getElementText(JsoupUtil.parseUrlHtml(URL_PREFIX + next),JsoupConstant.CSS_QUERY_OF_CHAPTER_TITLE));
+            if(!next.equals(dataVo.getBaseUrl())){
+                dataVo.setNextTitle(JsoupUtil.getElementText(JsoupUtil.parseUrlHtml(dataVo.getBaseUrl() + next),JsoupConstant.CSS_QUERY_OF_CHAPTER_TITLE));
                 chapter.setNextTitle(dataVo.getNextTitle());
             }
         }
@@ -135,10 +135,10 @@ public class BookServiceImpl extends ServiceImpl<BookMapper, Book> implements IB
             chapter.setTxt(chapter.getTxt() + JsoupUtil.getElementText(document, JsoupConstant.CSS_QUERY_OF_CHAPTER_CONTENT).trim().replaceAll("br/>",""));
         }
 
-        if(next.equals(URL_PREFIX)){
+        if(next.equals(dataVo.getBaseUrl())){
             url = next;
         }else{
-            url = URL_PREFIX + next;
+            url = dataVo.getBaseUrl() + next;
         }
 
         doNext(url, chapter, dataVo);
@@ -179,11 +179,16 @@ public class BookServiceImpl extends ServiceImpl<BookMapper, Book> implements IB
     }
 
     @Override
-    public void scrpyBook( ScrpyParamVo paramVo) {
-        Document doc = JsoupUtil.parseUrlHtml(paramVo.getPath());
-        String bookId = saveDocIntoBook(doc, paramVo.getPath());
+    public void scrpyBook( Map<String, String> param) {
+        ScrpyParamVo paramVo = new ScrpyParamVo();
+        paramVo.setBaseUrl(CommonUtils.hanldNull(param.get("baseUrl")));
+        paramVo.setStartUrl(CommonUtils.hanldNull(param.get("startUrl")));
+        Document doc = JsoupUtil.parseUrlHtml(paramVo.getBaseUrl());
+        String bookId = saveDocIntoBook(doc, paramVo.getBaseUrl());
         JsoupSaveDataVo dataVo = new JsoupSaveDataVo();
         dataVo.setBookId(bookId);
+        dataVo.setBaseUrl(paramVo.getBaseUrl());
+        dataVo.setStartUrl(paramVo.getStartUrl());
         dataVo.setCharpterId(CommonUtils.getUuid());
         dataVo.setNextTitle("");
         dataVo.setNext(CommonUtils.getUuid());
@@ -192,7 +197,7 @@ public class BookServiceImpl extends ServiceImpl<BookMapper, Book> implements IB
         ChapterMogo chapterMogo = new ChapterMogo();
         chapterMogo.setCharpterNum(0);
         try {
-            doNext(BASEIC_URL,chapterMogo,dataVo);
+            doNext(dataVo.getStartUrl(),chapterMogo,dataVo);
         } catch (IOException e) {
             e.printStackTrace();
         }

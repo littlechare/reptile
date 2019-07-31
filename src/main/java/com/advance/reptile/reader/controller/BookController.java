@@ -46,7 +46,7 @@ public class BookController {
     }
 
     @RequestMapping(value = "/scrpyBook")
-    public Response scrpyBook(@RequestBody ScrpyParamVo paramVo){
+    public Response scrpyBook(@RequestParam Map<String, String> paramVo){
         bookService.scrpyBook(paramVo);
         return Response.success();
     }

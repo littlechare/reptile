@@ -29,7 +29,7 @@ public class ChapterMogo implements Serializable{
     private String url;//连接
 
     @Field("charpterNum")
-    private int charpterNum; // 章节数
+    private Integer charpterNum; // 章节数
 
     @Field("dataStatus")
     private String dataStatus;//数据状态

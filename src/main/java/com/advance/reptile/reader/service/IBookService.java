@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import org.jsoup.nodes.Document;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -25,5 +26,5 @@ public interface IBookService extends IService<Book> {
 
     List<String> getChapterLinks(Document doc);
 
-    void scrpyBook( ScrpyParamVo paramVo);
+    void scrpyBook( Map<String, String> paramVo);
 }
