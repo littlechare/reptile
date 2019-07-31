@@ -22,4 +22,5 @@ public class JsoupSaveDataVo {
 
     private String nextTitle;
 
+    private String bookId;
 }
