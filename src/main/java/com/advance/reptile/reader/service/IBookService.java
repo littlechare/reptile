@@ -1,5 +1,6 @@
 package com.advance.reptile.reader.service;
 
+import com.advance.reptile.reader.ScrpyParamVo;
 import com.advance.reptile.reader.entity.Book;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.jsoup.nodes.Document;
@@ -18,10 +19,11 @@ public interface IBookService extends IService<Book> {
 
     Book getBook(String id);
 
-    void saveDocIntoBook(Document document, String path);
+    String saveDocIntoBook(Document document, String path);
 
     void saveBook(Book book);
 
     List<String> getChapterLinks(Document doc);
 
+    void scrpyBook( ScrpyParamVo paramVo);
 }

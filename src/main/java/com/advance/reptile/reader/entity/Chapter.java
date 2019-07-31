@@ -47,5 +47,6 @@ public class Chapter implements Serializable {
      */
     private String next;
 
+    private String bookId;
 
 }

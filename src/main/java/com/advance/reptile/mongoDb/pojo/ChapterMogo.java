@@ -16,8 +16,8 @@ import java.time.LocalDateTime;
 @Data
 public class ChapterMogo implements Serializable{
 
-    @Id
-    private String id;
+//    @Id
+//    private String id;
 
     @Field("title")
     private String title;//章节标题

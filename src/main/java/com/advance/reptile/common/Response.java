@@ -23,7 +23,7 @@ public class Response<T> {
 
     //不返回数据的成功方法
     public static Response success() {
-        return success();
+        return new Response(CodeMsg.SUCCCESS.getCode(), CodeMsg.SUCCCESS.getMsg(), null);
     }
 
     //返回数据的成功方法

@@ -34,7 +34,8 @@ public abstract class BaseMongoRepository<T>{
      * 保存一个对象
      * @param t
      */ public void save(T t) {
-         logger.info("-------------->MongoDB save start"); this.mongoTemplate.save(t);
+         logger.info("-------------->MongoDB save start");
+         this.mongoTemplate.save(t);
      }
 
     /***
