@@ -156,6 +156,7 @@ public class BookServiceImpl extends ServiceImpl<BookMapper, Book> implements IB
         chapter.setNum(mogo.getCharpterNum());
         chapter.setPre(dataVo.getPre());
         chapter.setNext(dataVo.getNext());
+        chapter.setBookId(dataVo.getBookId());
         mysqlChpterService.save(chapter);
         return chapter;
     }
@@ -179,7 +180,10 @@ public class BookServiceImpl extends ServiceImpl<BookMapper, Book> implements IB
 
     @Override
     public void scrpyBook( ScrpyParamVo paramVo) {
+        Document doc = JsoupUtil.parseUrlHtml(paramVo.getPath());
+        String bookId = saveDocIntoBook(doc, paramVo.getPath());
         JsoupSaveDataVo dataVo = new JsoupSaveDataVo();
+        dataVo.setBookId(bookId);
         dataVo.setCharpterId(CommonUtils.getUuid());
         dataVo.setNextTitle("");
         dataVo.setNext(CommonUtils.getUuid());
