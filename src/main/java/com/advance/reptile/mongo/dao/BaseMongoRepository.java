@@ -1,4 +1,4 @@
-package com.advance.reptile.mongoDb.dao;
+package com.advance.reptile.mongo.dao;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

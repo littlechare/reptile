@@ -1,26 +1,12 @@
 package com.advance.reptile;
 
-import com.advance.reptile.common.CommonUtils;
-import com.advance.reptile.mongoDb.pojo.ChapterMogo;
-import com.advance.reptile.mongoDb.service.ChapterService;
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
-import org.jsoup.Connection;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
+import com.advance.reptile.mongo.pojo.ChapterMogo;
+import com.advance.reptile.mongo.service.ChapterService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import java.io.IOException;
-import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest

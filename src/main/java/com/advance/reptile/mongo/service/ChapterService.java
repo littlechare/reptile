@@ -1,7 +1,7 @@
-package com.advance.reptile.mongoDb.service;
+package com.advance.reptile.mongo.service;
 
-import com.advance.reptile.mongoDb.dao.ChapterRepository;
-import com.advance.reptile.mongoDb.pojo.ChapterMogo;
+import com.advance.reptile.mongo.dao.ChapterRepository;
+import com.advance.reptile.mongo.pojo.ChapterMogo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

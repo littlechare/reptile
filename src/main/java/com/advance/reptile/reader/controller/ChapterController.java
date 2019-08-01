@@ -2,11 +2,9 @@ package com.advance.reptile.reader.controller;
 
 
 import com.advance.reptile.common.Response;
-import com.advance.reptile.mongoDb.pojo.ChapterMogo;
-import com.advance.reptile.mongoDb.service.ChapterService;
+import com.advance.reptile.mongo.pojo.ChapterMogo;
+import com.advance.reptile.mongo.service.ChapterService;
 import com.advance.reptile.reader.service.IChapterService;
-import com.advance.reptile.redis.RedisService;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;

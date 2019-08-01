@@ -1,6 +1,6 @@
-package com.advance.reptile.mongoDb.dao;
+package com.advance.reptile.mongo.dao;
 
-import com.advance.reptile.mongoDb.pojo.ChapterMogo;
+import com.advance.reptile.mongo.pojo.ChapterMogo;
 import org.springframework.stereotype.Repository;
 
 /**
