@@ -7,7 +7,7 @@ import com.advance.reptile.jsoup.utils.JsoupUtil;
 import com.advance.reptile.jsoup.vo.JsoupSaveDataVo;
 import com.advance.reptile.mongo.pojo.ChapterMogo;
 import com.advance.reptile.mongo.service.ChapterService;
-import com.advance.reptile.reader.ScrpyParamVo;
+import com.advance.reptile.reader.vo.ScrpyParamVo;
 import com.advance.reptile.reader.constant.ReadConstant;
 import com.advance.reptile.reader.entity.Book;
 import com.advance.reptile.reader.entity.Chapter;

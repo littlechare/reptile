@@ -28,26 +28,15 @@ public class UserBookController {
     @Autowired
     private IUserBookService userBookService;
 
-    @RequestMapping("/save/{bookId}/{num}")
-    public Response saveBookHistory(@PathVariable("bookId")String bookId, @PathVariable("num")int num){
-        UserBook userBook = new UserBook();
-        String uuid = CommonUtils.getUuid();
-        userBook.setId(uuid);
-        userBook.setBookId(bookId);
-        userBook.setUserId("zhouz");
-        userBook.setChapterNum(num);
-        userBookService.save(userBook);
+    @RequestMapping("/save/{bookId}/{chapterId}/{num}")
+    public Response saveBookHistory(@PathVariable("bookId")String bookId, @PathVariable("chapterId")String chapterId, @PathVariable("num")int num){
+        userBookService.saveBookHistory(bookId, "zhouz", chapterId, num);
         return Response.success();
     }
 
     @RequestMapping("/history/{bookId}")
     public Response bookHistory(@PathVariable("bookId")String bookId){
-        QueryWrapper<UserBook> queryWrapper = new QueryWrapper();
-        queryWrapper.eq("book_id",bookId);
-        queryWrapper.eq("user_id","zhouz");
-        queryWrapper.eq("status", SysConstant.DATA_STATUS_VALID);
-        UserBook userBook = userBookService.list(queryWrapper).size() > 0 ? userBookService.list(queryWrapper).get(0) : null;
-        return Response.success(userBook);
+        return Response.success(userBookService.getBookHistpry(bookId, "zhouz"));
     }
 
 }

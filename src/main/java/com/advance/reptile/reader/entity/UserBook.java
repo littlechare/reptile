@@ -28,6 +28,8 @@ public class UserBook implements Serializable {
 
     private String status;
 
+    private String chapterId;
+
     private Integer chapterNum;
 
 

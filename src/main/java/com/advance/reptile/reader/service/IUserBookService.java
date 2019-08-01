@@ -13,4 +13,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IUserBookService extends IService<UserBook> {
 
+    void saveBookHistory(String bookId, String userId, String chapterId, int num);
+
+    UserBook getBookHistpry(String bookId, String userId);
+
 }

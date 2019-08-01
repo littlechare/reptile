@@ -1,6 +1,5 @@
 package com.advance.reptile.reader.service;
 
-import com.advance.reptile.reader.ScrpyParamVo;
 import com.advance.reptile.reader.entity.Book;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.jsoup.nodes.Document;

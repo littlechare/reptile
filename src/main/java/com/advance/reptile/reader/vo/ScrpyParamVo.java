@@ -1,4 +1,4 @@
-package com.advance.reptile.reader;
+package com.advance.reptile.reader.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
