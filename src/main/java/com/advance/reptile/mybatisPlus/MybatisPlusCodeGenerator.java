@@ -54,11 +54,11 @@ public class MybatisPlusCodeGenerator {
 
         // 数据源配置
         DataSourceConfig dsc = new DataSourceConfig();
-        dsc.setUrl("jdbc:p6spy:mysql://localhost:3306/reptile?useUnicode=true&useSSL=false&characterEncoding=utf8&serverTimezone=GMT%2B8&amp");
+        dsc.setUrl("jdbc:p6spy:mysql://134.175.3.16:3306/reptile?useUnicode=true&useSSL=false&characterEncoding=utf8&serverTimezone=GMT%2B8&amp");
         // dsc.setSchemaName("public");
         dsc.setDriverName("com.mysql.cj.jdbc.Driver");
         dsc.setUsername("root");
-        dsc.setPassword("123456");
+        dsc.setPassword("Zhouhan19970517$");
         mpg.setDataSource(dsc);
 
         // 包配置

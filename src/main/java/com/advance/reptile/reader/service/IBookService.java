@@ -18,7 +18,7 @@ import java.util.Map;
  */
 public interface IBookService extends IService<Book> {
 
-    List<Book> getBookList();
+    List<Book> getBookList(String bookName);
 
     Book getBook(String id);
 
@@ -29,4 +29,5 @@ public interface IBookService extends IService<Book> {
     List<String> getChapterLinks(Document doc);
 
     void scrpyBook( Map<String, String> paramVo);
+
 }

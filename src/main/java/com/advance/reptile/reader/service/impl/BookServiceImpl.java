@@ -15,12 +15,15 @@ import com.advance.reptile.reader.mapper.BookMapper;
 import com.advance.reptile.reader.service.IBookService;
 import com.advance.reptile.reader.service.IChapterService;
 import com.advance.reptile.redis.RedisService;
+import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -56,7 +59,16 @@ public class BookServiceImpl extends ServiceImpl<BookMapper, Book> implements IB
     private static String BASEIC_URL = "http://www.xinshubao.net/7/7828/23028539.html";
 
     @Override
-    public List<Book> getBookList() {
+    public List<Book> getBookList( String bookName) {
+        if(CommonUtils.isNotEmpty(bookName)){
+            JSONObject data = JSONObject.parseObject(bookName);
+            bookName = data.getString("bookName");
+            QueryWrapper queryWrapper = new QueryWrapper();
+            queryWrapper.like("name",bookName);
+            List<Book> bookList = super.list(queryWrapper);
+            logger.info("/------------  从Mysql中搜索出书籍列表截数据   ------------/");
+            return bookList;
+        }
         if(redisService.exists(ReadConstant.REDIS_KEY_OF_BOOK_LIST)){
             logger.info("/------------  从redis中取出书籍列表截数据   ------------/");
             return redisService.getList(ReadConstant.REDIS_KEY_OF_BOOK_LIST).toJavaList(Book.class);
@@ -93,11 +105,13 @@ public class BookServiceImpl extends ServiceImpl<BookMapper, Book> implements IB
         return uuid;
     }
 
+    @Transactional
     @Override
     public void saveBook(Book book) {
         bookMapper.insert(book);
     }
 
+    @Transactional
     public void doNext(String url, ChapterMogo chapter, JsoupSaveDataVo dataVo) throws IOException {
         if(url.equals(dataVo.getBaseUrl())){
             chapter.setCharpterNum(chapter.getCharpterNum() + 1);
@@ -198,6 +212,7 @@ public class BookServiceImpl extends ServiceImpl<BookMapper, Book> implements IB
         return results;
     }
 
+    @Transactional
     @Override
     public void scrpyBook( Map<String, String> param) {
         ScrpyParamVo paramVo = new ScrpyParamVo();

@@ -20,11 +20,6 @@ spring:
 #    url: jdbc:mysql://localhost:3306/reptile?useUnicode=true&useSSL=false&characterEncoding=utf8&serverTimezone=GMT%2B8&amp
     username: root
     password: Zhouhan19970517$
-    hikari:
-      max-lifetime: 1440000
-      validation-timeout: 1440000
-      connection-test-query: SELECT 1 FROM DUAL
-      idle-timeout: 0
 
   data:
     mongodb:
