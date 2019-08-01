@@ -20,7 +20,6 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/reader/book")
-@CrossOrigin
 public class BookController {
 
     @Autowired

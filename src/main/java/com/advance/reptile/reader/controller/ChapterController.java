@@ -6,7 +6,6 @@ import com.advance.reptile.mongo.pojo.ChapterMogo;
 import com.advance.reptile.mongo.service.ChapterService;
 import com.advance.reptile.reader.service.IChapterService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -22,7 +21,6 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/reader/chapter")
-@CrossOrigin
 public class ChapterController {
 
     @Autowired
