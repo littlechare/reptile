@@ -39,7 +39,13 @@ spring:
         max-wait: 500
         min-idle: 0
     password: 123456
-
+#    rabbitMq配置
+  rabbitmq:
+      host: 134.175.3.16
+      username: root
+      password: 123456
+      port: 5672
+      virtual-host: /
 #日志配置
 logging:
   config: classpath:logback.xml
