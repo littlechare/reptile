@@ -18,6 +18,8 @@ import java.util.Map;
  */
 public interface IBookService extends IService<Book> {
 
+    List<Book> getBookList();
+
     Book getBook(String id);
 
     String saveDocIntoBook(Document document, String path);

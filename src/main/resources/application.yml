@@ -23,8 +23,9 @@ spring:
     hikari:
       max-lifetime: 1440000
       validation-timeout: 1440000
-      connection-test-query: SELECT 1
+      connection-test-query: SELECT 1 FROM DUAL
       idle-timeout: 0
+
   data:
     mongodb:
       database: reptile
@@ -32,6 +33,17 @@ spring:
       host: 134.175.3.16
       #端口号
       port: 27017
+  redis:
+    port: 6379
+    host: 134.175.3.16
+    timeout: 10
+    jedis:
+      pool:
+        max-idle: 500
+        max-active: 1000
+        max-wait: 500
+        min-idle: 0
+    password: 123456
 
 #日志配置
 logging:

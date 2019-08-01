@@ -5,6 +5,7 @@ import com.advance.reptile.common.Response;
 import com.advance.reptile.mongoDb.pojo.ChapterMogo;
 import com.advance.reptile.mongoDb.service.ChapterService;
 import com.advance.reptile.reader.service.IChapterService;
+import com.advance.reptile.redis.RedisService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -33,10 +34,7 @@ public class ChapterController {
 
     @RequestMapping("/chapters/{bookId}")
     public Response getChapters(@PathVariable("bookId")String bookId){
-        QueryWrapper wrapper = new QueryWrapper();
-        wrapper.eq("book_id", bookId);
-        wrapper.orderByAsc("num");
-        return Response.success(chapterService.list(wrapper));
+        return Response.success(chapterService.getBookChapters(bookId));
     }
 
     @RequestMapping("/{id}")
@@ -46,4 +44,5 @@ public class ChapterController {
         chapterMogo.setCharpterNum(null);
         return Response.success(mongoChapterService.getChapter(chapterMogo));
     }
+
 }

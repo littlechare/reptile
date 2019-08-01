@@ -1,53 +1,51 @@
-//package com.advance.reptile;
-//
-//import com.advance.reptile.common.CommonUtils;
-//import com.advance.reptile.jsoup.entity.Book;
-//import com.advance.reptile.jsoup.service.IBookService;
-//import com.advance.reptile.mongoDb.pojo.Chapter;
-//import com.advance.reptile.mongoDb.service.ChapterService;
-//import com.alibaba.fastjson.JSON;
-//import com.alibaba.fastjson.JSONArray;
-//import com.alibaba.fastjson.JSONObject;
-//import org.jsoup.Connection;
-//import org.jsoup.Jsoup;
-//import org.jsoup.nodes.Document;
-//import org.jsoup.nodes.Element;
-//import org.jsoup.select.Elements;
-//import org.junit.Test;
-//import org.junit.runner.RunWith;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.boot.test.context.SpringBootTest;
-//import org.springframework.test.context.junit4.SpringRunner;
-//
-//import java.io.IOException;
-//import java.time.LocalDateTime;
-//import java.util.HashMap;
-//import java.util.Map;
-//
-//@RunWith(SpringRunner.class)
-//@SpringBootTest
-//public class ReptileApplicationTests {
-//
-//	@Autowired
-//	private ChapterService chapterService;
+package com.advance.reptile;
+
+import com.advance.reptile.common.CommonUtils;
+import com.advance.reptile.mongoDb.pojo.ChapterMogo;
+import com.advance.reptile.mongoDb.service.ChapterService;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import org.jsoup.Connection;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
+
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
+
+@RunWith(SpringRunner.class)
+@SpringBootTest
+public class ReptileApplicationTests {
+
+	@Autowired
+	private ChapterService chapterService;
 //	@Autowired
 //	private IBookService bookService;
-//
-//
-//	private final static String BASEIC_URL = "http://www.xinshubao.net/7/7828/";
-//
-//	@Test
-//	public void saveChapter(){
-//		Chapter chapter = new Chapter();
-//		chapter.setDataStatus("1");
-////		chapter.setDataTime(LocalDateTime.now());
-//		chapter.setTitle("test");
-//		chapter.setTxt("hahahaha");
-//		chapter.setUrl("123");
-//		chapterService.insertDocument(chapter);
-////		System.err.println(chapterService.getChapter(chapter));
-//	}
-//
+
+
+	private final static String BASEIC_URL = "http://www.xinshubao.net/7/7828/";
+
+	@Test
+	public void saveChapter(){
+		ChapterMogo chapter = new ChapterMogo();
+		chapter.setDataStatus("1");
+//		chapter.setDataTime(LocalDateTime.now());
+		chapter.setTitle("test");
+		chapter.setTxt("hahahaha");
+		chapter.setUrl("123");
+		chapterService.insertDocument(chapter);
+//		System.err.println(chapterService.getChapter(chapter));
+	}
+
 //	@Test
 //	public void contextLoads() throws IOException {
 //		String url1 = "http://www.xinshubao.net/7/7828/23029653.html";
@@ -108,5 +106,5 @@
 //
 //		doNext(url, chapter);
 //	}
-//
-//}
+
+}

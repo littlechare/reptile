@@ -42,7 +42,7 @@ public class BookController {
 
     @RequestMapping(value = "/getBooks")
     public Response getBooks(){
-        return Response.success(bookService.list());
+        return Response.success(bookService.getBookList());
     }
 
     @RequestMapping(value = "/scrpyBook")
