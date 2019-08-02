@@ -105,6 +105,8 @@ public class BookServiceImpl extends ServiceImpl<BookMapper, Book> implements IB
         return uuid;
     }
 
+
+
     @Transactional
     @Override
     public void saveBook(Book book) {
@@ -119,8 +121,12 @@ public class BookServiceImpl extends ServiceImpl<BookMapper, Book> implements IB
             chapter.setNextId("");
             dataVo.setNext("");
             dataVo.setNextTitle("无");
-            saveMysqlChapter(chapter,dataVo);
+            Chapter chapter1 = saveMysqlChapter(chapter,dataVo);
             chapterService.insertDocument(chapter);
+            Book book = this.getBook(chapter1.getBookId());
+            book.setPraNum(chapter.getCharpterNum());
+            //修改章节数
+            this.updateBook(book);
             return ;
         }
         //获取文档内容
@@ -236,6 +242,12 @@ public class BookServiceImpl extends ServiceImpl<BookMapper, Book> implements IB
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @Transactional
+    @Override
+    public void updateBook(Book book) {
+        super.updateById(book);
     }
 
 }

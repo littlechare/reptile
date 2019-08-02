@@ -29,4 +29,6 @@ public interface IBookService extends IService<Book> {
 
     void scrpyBook( Map<String, String> paramVo);
 
+    void updateBook(Book book);
+
 }
