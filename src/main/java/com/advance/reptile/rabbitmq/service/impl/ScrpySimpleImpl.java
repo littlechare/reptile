@@ -1,4 +1,4 @@
-package com.advance.reptile.rabbitmq.service;
+package com.advance.reptile.rabbitmq.service.impl;
 
 import com.advance.reptile.common.CommonUtils;
 import com.advance.reptile.jsoup.constant.JsoupConstant;
@@ -6,6 +6,7 @@ import com.advance.reptile.jsoup.utils.JsoupUtil;
 import com.advance.reptile.jsoup.vo.JsoupSaveDataVo;
 import com.advance.reptile.mongo.pojo.ChapterMogo;
 import com.advance.reptile.mongo.service.ChapterService;
+import com.advance.reptile.rabbitmq.service.IScrpySimple;
 import com.advance.reptile.reader.entity.Book;
 import com.advance.reptile.reader.entity.Chapter;
 import com.advance.reptile.reader.service.IBookService;
