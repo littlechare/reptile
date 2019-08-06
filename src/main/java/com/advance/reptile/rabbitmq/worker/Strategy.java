@@ -1,4 +1,4 @@
-package com.advance.reptile.rabbitmq;
+package com.advance.reptile.rabbitmq.worker;
 
 import java.util.Map;
 
