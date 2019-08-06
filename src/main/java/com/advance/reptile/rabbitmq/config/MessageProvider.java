@@ -1,7 +1,9 @@
-package com.advance.reptile.rabbitmq;
+package com.advance.reptile.rabbitmq.config;
 
 import com.advance.reptile.common.CommonUtils;
 import com.advance.reptile.common.Logger;
+import com.advance.reptile.rabbitmq.vo.MessagePojo;
+import com.advance.reptile.rabbitmq.constant.QueueEnum;
 import com.alibaba.fastjson.JSON;
 import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -46,7 +48,7 @@ public class MessageProvider implements RabbitTemplate.ConfirmCallback {
             messageContent.setCreateTime(CommonUtils.handTimestamp(Timestamp.valueOf(LocalDateTime.now())));
             String msg = JSON.toJSONString(messageContent);
             msgPojoStr = msg;
-            logger.info("延迟："+messageContent.getDelay()+"秒写入消息队列："+QueueEnum.MESSAGE_TTL_QUEUE.getRouteKey()+"，消息内容："+msg);
+            logger.info("延迟："+messageContent.getDelay()+"秒写入消息队列："+ QueueEnum.MESSAGE_TTL_QUEUE.getRouteKey()+"，消息内容："+msg);
             // 执行发送消息到指定队列
             CorrelationData correlationData = new CorrelationData(messageContent.getMessageId());
             rabbitTemplate.convertAndSend(QueueEnum.MESSAGE_TTL_QUEUE.getExchange(), QueueEnum.MESSAGE_TTL_QUEUE.getRouteKey(), msg, message -> {

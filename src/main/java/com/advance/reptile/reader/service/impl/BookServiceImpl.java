@@ -113,82 +113,13 @@ public class BookServiceImpl extends ServiceImpl<BookMapper, Book> implements IB
         bookMapper.insert(book);
     }
 
-    @Transactional
-    public void doNext(String url, ChapterMogo chapter, JsoupSaveDataVo dataVo) throws IOException {
-        if(url.equals(dataVo.getBaseUrl())){
-            chapter.setCharpterNum(chapter.getCharpterNum() + 1);
-            chapter.setNextTitle("无");
-            chapter.setNextId("");
-            dataVo.setNext("");
-            dataVo.setNextTitle("无");
-            Chapter chapter1 = saveMysqlChapter(chapter,dataVo);
-            chapterService.insertDocument(chapter);
-            Book book = this.getBook(chapter1.getBookId());
-            book.setPraNum(chapter.getCharpterNum());
-            //修改章节数
-            this.updateBook(book);
-            return ;
-        }
-        //获取文档内容
-        Document document = JsoupUtil.parseUrlHtml(url);
-        //获取下一章url地址
-        String next = JsoupUtil.getElementAttr(document, JsoupConstant.CSS_QUERY_OF_NEXT_CHAPTER_URL, "href");
-        if(!(next.lastIndexOf("_") > -1)){
-            if(!next.equals(dataVo.getBaseUrl())){
-                dataVo.setNextTitle(JsoupUtil.getElementText(JsoupUtil.parseUrlHtml(dataVo.getBaseUrl() + next),JsoupConstant.CSS_QUERY_OF_CHAPTER_TITLE));
-                chapter.setNextTitle(dataVo.getNextTitle());
-            }
-        }
-        //不包含_的视为本章开头
-        if(!(url.lastIndexOf("_") > -1)){
-            Chapter chapterMysql = new Chapter();
-            //下一章标题
-            String title = JsoupUtil.getElementText(document, JsoupConstant.CSS_QUERY_OF_CHAPTER_TITLE);
-            //内容不为空保存
-            if(CommonUtils.objNotEmpty(chapter.getTxt())){
-                chapter.setCharpterNum(chapter.getCharpterNum() + 1);
-                chapterMysql = saveMysqlChapter(chapter,dataVo);
-                dataVo.setPreTitle(chapter.getTitle());
-                //保存至mongoDb
-                chapterService.insertDocument(chapter);
-                //在此处设置保存参数
-                //下一章信息
-                dataVo.setNext(CommonUtils.getUuid());
-
-                //上一章信息
-                dataVo.setPre(dataVo.getCharpterId());
-                dataVo.setCharpterId(chapterMysql.getNext());
-            }
-//            chapter = new ChapterMogo();
-            chapter.setUrl(url);
-            chapter.setDataTime(LocalDateTime.now());
-            chapter.setDataStatus("1");
-            chapter.setChapterId(dataVo.getCharpterId());
-            chapter.setNextId(dataVo.getNext());
-            chapter.setNextTitle(dataVo.getNextTitle());
-            chapter.setPreId(dataVo.getPre());
-            chapter.setPreTitle(dataVo.getPreTitle());
-            chapter.setTxt(JsoupUtil.getElementText(document, JsoupConstant.CSS_QUERY_OF_CHAPTER_CONTENT).trim().replaceAll("br/>",""));
-            chapter.setTitle(title);
-
-        }else{
-            chapter.setTxt(chapter.getTxt() + JsoupUtil.getElementText(document, JsoupConstant.CSS_QUERY_OF_CHAPTER_CONTENT).trim().replaceAll("br/>",""));
-        }
-
-        if(next.equals(dataVo.getBaseUrl())){
-            url = next;
-        }else{
-            url = dataVo.getBaseUrl() + next;
-        }
-
-        doNext(url, chapter, dataVo);
-    }
-
     /**
      * 保存mysql章节信息
      * @param mogo
      */
-    private Chapter saveMysqlChapter(ChapterMogo mogo, JsoupSaveDataVo dataVo){
+    @Transactional
+    @Override
+    public Chapter saveMysqlChapter(ChapterMogo mogo, JsoupSaveDataVo dataVo){
         Chapter chapter = new Chapter();
         chapter.setId(dataVo.getCharpterId());
         chapter.setTitle(mogo.getTitle());
@@ -201,6 +132,24 @@ public class BookServiceImpl extends ServiceImpl<BookMapper, Book> implements IB
         return chapter;
     }
 
+    /**
+     * 书籍是否存在
+     * @param bookName
+     * @return
+     */
+    @Override
+    public boolean isBookExist(String bookName) {
+        QueryWrapper<Book> wrapper = new QueryWrapper<>();
+        wrapper.eq("name", bookName);
+        List<Book> books = this.list(wrapper);
+        return books.size() > 0 ? true : false;
+    }
+
+    /**
+     * 获取章节链接
+     * @param doc
+     * @return
+     */
     @Override
     public List<String> getChapterLinks(Document doc) {
         List<String> results = new ArrayList<>();
@@ -218,31 +167,31 @@ public class BookServiceImpl extends ServiceImpl<BookMapper, Book> implements IB
         return results;
     }
 
-    @Transactional
-    @Override
-    public void scrpyBook( Map<String, String> param) {
-        ScrpyParamVo paramVo = new ScrpyParamVo();
-        paramVo.setBaseUrl(CommonUtils.hanldNull(param.get("baseUrl")));
-        paramVo.setStartUrl(CommonUtils.hanldNull(param.get("startUrl")));
-        Document doc = JsoupUtil.parseUrlHtml(paramVo.getBaseUrl());
-        String bookId = saveDocIntoBook(doc, paramVo.getBaseUrl());
-        JsoupSaveDataVo dataVo = new JsoupSaveDataVo();
-        dataVo.setBookId(bookId);
-        dataVo.setBaseUrl(paramVo.getBaseUrl());
-        dataVo.setStartUrl(paramVo.getStartUrl());
-        dataVo.setCharpterId(CommonUtils.getUuid());
-        dataVo.setNextTitle("");
-        dataVo.setNext(CommonUtils.getUuid());
-        dataVo.setPre("");
-        dataVo.setPreTitle("无");
-        ChapterMogo chapterMogo = new ChapterMogo();
-        chapterMogo.setCharpterNum(0);
-        try {
-            doNext(dataVo.getStartUrl(),chapterMogo,dataVo);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+//    @Transactional
+//    @Override
+//    public void scrpyBook( Map<String, String> param) {
+//        ScrpyParamVo paramVo = new ScrpyParamVo();
+//        paramVo.setBaseUrl(CommonUtils.hanldNull(param.get("baseUrl")));
+//        paramVo.setStartUrl(CommonUtils.hanldNull(param.get("startUrl")));
+//        Document doc = JsoupUtil.parseUrlHtml(paramVo.getBaseUrl());
+//        String bookId = saveDocIntoBook(doc, paramVo.getBaseUrl());
+//        JsoupSaveDataVo dataVo = new JsoupSaveDataVo();
+//        dataVo.setBookId(bookId);
+//        dataVo.setBaseUrl(paramVo.getBaseUrl());
+//        dataVo.setStartUrl(paramVo.getStartUrl());
+//        dataVo.setCharpterId(CommonUtils.getUuid());
+//        dataVo.setNextTitle("");
+//        dataVo.setNext(CommonUtils.getUuid());
+//        dataVo.setPre("");
+//        dataVo.setPreTitle("无");
+//        ChapterMogo chapterMogo = new ChapterMogo();
+//        chapterMogo.setCharpterNum(0);
+//        try {
+//            doNext(dataVo.getStartUrl(),chapterMogo,dataVo);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     @Transactional
     @Override

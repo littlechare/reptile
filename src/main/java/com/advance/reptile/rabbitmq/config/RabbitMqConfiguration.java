@@ -1,5 +1,6 @@
-package com.advance.reptile.rabbitmq;
+package com.advance.reptile.rabbitmq.config;
 
+import com.advance.reptile.rabbitmq.constant.QueueEnum;
 import org.springframework.amqp.core.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -1,4 +1,4 @@
-package com.advance.reptile.rabbitmq;
+package com.advance.reptile.rabbitmq.constant;
 
 public enum Action {
 

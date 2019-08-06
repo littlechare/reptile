@@ -1,6 +1,10 @@
-package com.advance.reptile.rabbitmq;
+package com.advance.reptile.rabbitmq.config;
 
 import com.advance.reptile.common.Logger;
+import com.advance.reptile.rabbitmq.vo.MessagePojo;
+import com.advance.reptile.rabbitmq.worker.Strategy;
+import com.advance.reptile.rabbitmq.constant.Action;
+import com.advance.reptile.rabbitmq.constant.QueueContent;
 import com.advance.reptile.redis.RedisService;
 import com.rabbitmq.client.Channel;
 import org.springframework.amqp.core.Message;

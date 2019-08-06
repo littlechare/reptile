@@ -1,4 +1,4 @@
-package com.advance.reptile.rabbitmq;
+package com.advance.reptile.rabbitmq.config;
 
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;

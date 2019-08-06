@@ -15,5 +15,7 @@ public class JsoupConstant {
     public final static String CSS_QUERY_OF_BOOK_NAME = "#info h1";
     //书籍描述信息选择器
     public final static String CSS_QUERY_OF_BOOK_INFO = "#info p";
+    //其实页面的获取路径
+    public final static String CSS_QUERY_START_URL = "#list ._chapter li:eq(0)";
 
 }
