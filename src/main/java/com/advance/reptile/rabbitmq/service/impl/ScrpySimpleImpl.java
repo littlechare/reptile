@@ -41,13 +41,17 @@ public class ScrpySimpleImpl implements IScrpySimple {
 
     @Transactional
     @Override
-    public void scrpyBook(Map<String, Object> param) {
+    public void scrpyBook(Map<String, Object> param) throws Exception {
 
         ScrpyParamVo paramVo = new ScrpyParamVo();
         String baseUrl = CommonUtils.hanldNull(param.get("baseUrl"));
         paramVo.setBaseUrl(baseUrl);
         paramVo.setStartUrl(this.getStartUrl(baseUrl));
         Document doc = JsoupUtil.parseUrlHtml(paramVo.getBaseUrl());
+
+        if(CommonUtils.isObjEmpty(doc)){
+            return;
+        }
 
         String title = JsoupUtil.getElementText(doc, JsoupConstant.CSS_QUERY_OF_BOOK_NAME);
         String author = JsoupUtil.parseDom(doc, JsoupConstant.CSS_QUERY_OF_BOOK_INFO).eq(0).text();
@@ -80,13 +84,13 @@ public class ScrpySimpleImpl implements IScrpySimple {
     }
 
     @Override
-    public String getStartUrl(String baseUrl) {
+    public String getStartUrl(String baseUrl) throws Exception {
         Document document = JsoupUtil.parseUrlHtml(baseUrl);
         return JsoupUtil.getElementText(document, JsoupConstant.CSS_QUERY_START_URL);
     }
 
     @Transactional
-    public void doNext(String url, ChapterMogo chapter, JsoupSaveDataVo dataVo) throws IOException {
+    public void doNext(String url, ChapterMogo chapter, JsoupSaveDataVo dataVo) throws Exception {
         if(url.equals(dataVo.getBaseUrl())){
             chapter.setCharpterNum(chapter.getCharpterNum() + 1);
             chapter.setNextTitle("无");

@@ -16,13 +16,13 @@ public class JsoupUtil {
      * @param url
      * @return
      */
-    public static Document parseUrlHtml(String url) {
+    public static Document parseUrlHtml(String url) throws Exception {
         try {
             return Jsoup.connect(url).get();
         } catch (IOException e) {
             e.printStackTrace();
+            throw new Exception("网址不正确！");
         }
-        return null;
     }
 
     /**

@@ -15,13 +15,13 @@ public interface IScrpySimple {
      * 小书内容爬取方法
      * @param params 参数
      */
-    void scrpyBook(Map<String, Object> params);
+    void scrpyBook(Map<String, Object> params) throws Exception;
 
     /**
      * 根据填写的基础路径，获取其实路径
      * @param baseUrl 基础路径
      * @return
      */
-    String getStartUrl(String baseUrl);
+    String getStartUrl(String baseUrl) throws Exception;
 
 }
