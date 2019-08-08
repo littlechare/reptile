@@ -101,6 +101,7 @@ public class BookServiceImpl extends ServiceImpl<BookMapper, Book> implements IB
         book.setUrl(path);
         book.setIntro(intro);
         book.setStatus(status);
+        book.setTag("0");
         saveBook(book);
         return uuid;
     }

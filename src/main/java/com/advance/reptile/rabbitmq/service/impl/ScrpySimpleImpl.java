@@ -13,6 +13,7 @@ import com.advance.reptile.reader.service.IBookService;
 import com.advance.reptile.reader.service.IChapterService;
 import com.advance.reptile.reader.vo.ScrpyParamVo;
 import com.advance.reptile.redis.RedisService;
+import com.alibaba.fastjson.JSONObject;
 import org.jsoup.nodes.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -43,10 +44,17 @@ public class ScrpySimpleImpl implements IScrpySimple {
     @Override
     public void scrpyBook(Map<String, Object> param) throws Exception {
 
+        String data = CommonUtils.hanldNull(param.get("data"));
+        JSONObject json = JSONObject.parseObject(data);
+
         ScrpyParamVo paramVo = new ScrpyParamVo();
-        String baseUrl = CommonUtils.hanldNull(param.get("baseUrl"));
+        String baseUrl = json.getString("baseUrl");
         paramVo.setBaseUrl(baseUrl);
-        paramVo.setStartUrl(this.getStartUrl(baseUrl));
+        String startUrl = this.getStartUrl(baseUrl);
+        if(CommonUtils.isEmpty(startUrl)){
+            return;
+        }
+        paramVo.setStartUrl(startUrl);
         Document doc = JsoupUtil.parseUrlHtml(paramVo.getBaseUrl());
 
         if(CommonUtils.isObjEmpty(doc)){
@@ -54,8 +62,8 @@ public class ScrpySimpleImpl implements IScrpySimple {
         }
 
         String title = JsoupUtil.getElementText(doc, JsoupConstant.CSS_QUERY_OF_BOOK_NAME);
-        String author = JsoupUtil.parseDom(doc, JsoupConstant.CSS_QUERY_OF_BOOK_INFO).eq(0).text();
-        if(!title.equals(CommonUtils.hanldNull(param.get("name"))) || !author.equals(CommonUtils.hanldNull(param.get("author")))){
+        String author = JsoupUtil.parseDom(doc, JsoupConstant.CSS_QUERY_OF_BOOK_INFO).eq(0).text().replaceAll("作者：","");
+        if(!title.equals(json.getString("name")) || !author.equals(json.getString("author"))){
             return;
         }
 
@@ -63,30 +71,33 @@ public class ScrpySimpleImpl implements IScrpySimple {
            return;
         }
 
-//        String bookId = bookService.saveDocIntoBook(doc, paramVo.getBaseUrl());
-//        JsoupSaveDataVo dataVo = new JsoupSaveDataVo();
-//        dataVo.setBookId(bookId);
-//        dataVo.setBaseUrl(paramVo.getBaseUrl());
-//        dataVo.setStartUrl(paramVo.getStartUrl());
-//        dataVo.setCharpterId(CommonUtils.getUuid());
-//        dataVo.setNextTitle("");
-//        dataVo.setNext(CommonUtils.getUuid());
-//        dataVo.setPre("");
-//        dataVo.setPreTitle("无");
-//        ChapterMogo chapterMogo = new ChapterMogo();
-//        chapterMogo.setCharpterNum(0);
-//        try {
-//            doNext(dataVo.getStartUrl(),chapterMogo,dataVo);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+        String bookId = bookService.saveDocIntoBook(doc, paramVo.getBaseUrl());
+        JsoupSaveDataVo dataVo = new JsoupSaveDataVo();
+        dataVo.setBookId(bookId);
+        dataVo.setBaseUrl(paramVo.getBaseUrl());
+        dataVo.setStartUrl(paramVo.getStartUrl());
+        dataVo.setCharpterId(CommonUtils.getUuid());
+        dataVo.setNextTitle("");
+        dataVo.setNext(CommonUtils.getUuid());
+        dataVo.setPre("");
+        dataVo.setPreTitle("无");
+        ChapterMogo chapterMogo = new ChapterMogo();
+        chapterMogo.setCharpterNum(0);
+        try {
+            doNext(dataVo.getStartUrl(),chapterMogo,dataVo);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 
     @Override
     public String getStartUrl(String baseUrl) throws Exception {
         Document document = JsoupUtil.parseUrlHtml(baseUrl);
-        return JsoupUtil.getElementText(document, JsoupConstant.CSS_QUERY_START_URL);
+        if(CommonUtils.isObjEmpty(document)){
+            return "";
+        }
+        return JsoupUtil.getElementAttr(document, JsoupConstant.CSS_QUERY_START_URL, "href");
     }
 
     @Transactional

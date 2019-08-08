@@ -1,5 +1,6 @@
 package com.advance.reptile.jsoup.utils;
 
+import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -17,12 +18,13 @@ public class JsoupUtil {
      * @return
      */
     public static Document parseUrlHtml(String url) throws Exception {
+        Connection connection;
         try {
-            return Jsoup.connect(url).get();
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw new Exception("网址不正确！");
+            connection = Jsoup.connect(url).timeout(30000);//设定30s超时
+        } catch (Exception e) {
+            return null;
         }
+        return connection.get();
     }
 
     /**
