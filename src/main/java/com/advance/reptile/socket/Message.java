@@ -1,5 +1,6 @@
 package com.advance.reptile.socket;
 
+import com.alibaba.fastjson.JSON;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -24,5 +25,9 @@ public class Message {
     private LocalDateTime time;
 
     private String remark;
+
+    public String toJson(){
+        return JSON.toJSONString(this);
+    }
 
 }

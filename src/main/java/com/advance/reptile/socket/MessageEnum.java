@@ -1,28 +1,28 @@
 package com.advance.reptile.socket;
 
 /**
- * 消息枚举类型，定义不同的消息类型
+ * 定义一个消息枚举类型，包含聊天消息对应的代码以及种类
  */
 public enum MessageEnum {
 
-    SIMPLE_SCRPY(10001,"简单爬取"),
-    MASTER_SCRPY(10001,"高级爬取");
+    SIMPLE_NETTY_HEADER("10001","simple"),
+    MASTER_NETTY_HEADER("20002","master");
 
-    private Integer code;
-
-    private String msg;
-
-    MessageEnum(Integer code, String msg){
+    MessageEnum(String code, String action){
         this.code = code;
-        this.msg = msg;
+        this.action = action;
     }
 
-    public Integer  getCode(){
+    private String code;
+
+    private String action;
+
+    public String getCode(){
         return code;
     }
 
-    public String getMsg(){
-        return msg;
+    public String getAction(){
+        return action;
     }
 
 }

@@ -25,6 +25,16 @@
 			<artifactId>spring-boot-starter-web</artifactId>
 			<version>2.1.3.RELEASE</version>
 		</dependency>
+		<!-- 使用websocket+netty实现长连接，进而实现消息回复，这里引入jar包 -->
+		<dependency>
+			<groupId>io.netty</groupId>
+			<artifactId>netty-all</artifactId>
+			<version>5.0.0.Alpha1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-websocket</artifactId>
+		</dependency>
 		<!-- rabbitmq配置 -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
