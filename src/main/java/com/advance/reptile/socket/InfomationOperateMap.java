@@ -1,5 +1,6 @@
 package com.advance.reptile.socket;
 
+import com.alibaba.fastjson.JSON;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 
@@ -39,8 +40,8 @@ public class InfomationOperateMap {
         InfomationOperateMap iom = new InfomationOperateMap(ctx, mage);
         ConcurrentMap<String, InfomationOperateMap> cmap = new ConcurrentHashMap<>();
         //群聊的消息中会存在聊天室名称，用户ID等信息
-        String id = mage.getParam().get("id") == null ? "": mage.getParam().get("id").toString();
-        String userId = mage.getParam().get("userId") == null ? "" : mage.getParam().get("userId").toString();
+        String id = "test";
+        String userId = mage.getUserId();
         if (map.containsKey(id)) {
             map.get(id).put(userId, iom);
         } else {
@@ -55,7 +56,7 @@ public class InfomationOperateMap {
      * @throws Exception
      */
     public void send(Message mage) throws Exception{
-        ctx.writeAndFlush(new TextWebSocketFrame(mage.toJson()));
+        ctx.writeAndFlush(new TextWebSocketFrame(JSON.toJSONString(mage)));
     }
 
 }

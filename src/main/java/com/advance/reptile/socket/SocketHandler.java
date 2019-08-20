@@ -1,5 +1,7 @@
 package com.advance.reptile.socket;
 
+import com.advance.reptile.common.CommonUtils;
+import com.advance.reptile.redis.RedisService;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.*;
@@ -11,6 +13,10 @@ import io.netty.util.CharsetUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
+
+import java.time.LocalDateTime;
+import java.util.HashMap;
 
 /**
  * @author advance
@@ -146,10 +152,31 @@ public class SocketHandler extends SimpleChannelInboundHandler<Object> {
             //throw new UnsupportedOperationException("当前只支持文本消息，不支持二进制消息");
             //获取发来的消息
             String text =((TextWebSocketFrame)frame).text();
-
+            Message message = CommonUtils.isObjEmpty(CommonUtils.StringToBean(text, Message.class)) ? new Message() : CommonUtils.StringToBean(text, Message.class);
+            message.setCode("test");
+            message.setUserId("zhouz");
+            message.setParam(new HashMap<>());
+            message.setTime(LocalDateTime.now());
+            InfomationOperateMap.add(ctx, message);
         } else {
             logger.debug("--------------------------聊天室接收消息出错了-------------");
         }
+    }
+
+    /**
+     * 发送消息
+     * @param table
+     * @param mage
+     */
+    public static void sendMsg(String table, Message mage){
+        //将用户下线信息发送给为在线用户
+        InfomationOperateMap.map.get(table).forEach((id, iom) -> {
+            try {
+                iom.send(mage);
+            } catch (Exception e) {
+                System.err.println(e);
+            }
+        });
     }
 
     /**

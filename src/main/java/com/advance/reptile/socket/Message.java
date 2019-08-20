@@ -1,7 +1,9 @@
 package com.advance.reptile.socket;
 
 import com.alibaba.fastjson.JSON;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.Map;
@@ -14,9 +16,11 @@ import java.util.Map;
  * @Version V1.0
  **/
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Message {
 
-    private String id;
+    private String userId;
 
     private String code;
 

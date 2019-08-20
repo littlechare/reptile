@@ -13,4 +13,7 @@ public class SysConstant {
 
     public final static String DATA_STATUS_INVALID = "0";
 
+    //定义netty连接端口
+    public final static int NETTY_PORT = 6868;
+
 }

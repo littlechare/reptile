@@ -3,9 +3,14 @@ package com.advance.reptile.rabbitmq.controller;
 import com.advance.reptile.common.Response;
 import com.advance.reptile.rabbitmq.config.MessageProvider;
 import com.advance.reptile.rabbitmq.vo.MessagePojo;
+import com.advance.reptile.socket.InfomationOperateMap;
+import com.advance.reptile.socket.Message;
+import com.advance.reptile.socket.SocketHandler;
+import com.advance.reptile.socket.SocketUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -43,4 +48,11 @@ public class RabbitController {
         return Response.success();
     }
 
+    @RequestMapping("/socket/send")
+    public Response sendMsg() throws Exception {
+        Map<String, Object> resMsg = new HashMap<>();
+        resMsg.put("msg","测试推送消息成功啦！");
+        SocketHandler.sendMsg("test",new Message("zhou","test",resMsg, LocalDateTime.now(), ""));
+        return Response.success();
+    }
 }
