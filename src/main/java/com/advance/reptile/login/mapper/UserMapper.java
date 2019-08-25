@@ -1,6 +1,6 @@
-package com.advance.reptile.reader.mapper;
+package com.advance.reptile.login.mapper;
 
-import com.advance.reptile.reader.entity.User;
+import com.advance.reptile.login.entity.User;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * </p>
  *
  * @author author
- * @since 2019-07-28
+ * @since 2019-08-25
  */
 public interface UserMapper extends BaseMapper<User> {
 

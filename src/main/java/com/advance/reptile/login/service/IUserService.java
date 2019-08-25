@@ -1,6 +1,6 @@
-package com.advance.reptile.reader.service;
+package com.advance.reptile.login.service;
 
-import com.advance.reptile.reader.entity.User;
+import com.advance.reptile.login.entity.User;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -9,8 +9,10 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * </p>
  *
  * @author author
- * @since 2019-07-28
+ * @since 2019-08-25
  */
 public interface IUserService extends IService<User> {
+
+    User getUserInfo(String openId);
 
 }
