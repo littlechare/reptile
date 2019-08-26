@@ -34,13 +34,13 @@ public class LoginServiceImpl implements LoginService{
      */
     @Override
     public JSONObject code2Session(String code) throws IOException {
-        Map<String, Object> mapParam = new HashMap<String, Object>();
+        Map<String, String> mapParam = new HashMap<String, String>();
         mapParam.put("appid", LoginConstant.APP_ID);
         mapParam.put("secret",LoginConstant.APP_SECRET);
         mapParam.put("js_code",code);
         mapParam.put("grant_type","authorization_code");
         String pathUrl = LoginConstant.WX_SESSION_URL;
-        String result = LoginUtils.postJson(pathUrl, mapParam);
+        String result = LoginUtils.sendPost(pathUrl, mapParam);
         return JSONObject.parseObject(result);
     }
 
@@ -50,14 +50,21 @@ public class LoginServiceImpl implements LoginService{
      * @throws IOException
      */
     @Override
-    public void doLogin(Map<String, Object> param) throws IOException {
+    public Map<String, Object> doLogin(Map<String, Object> param) throws IOException {
+        Map<String, Object> returnData = new HashMap<>();
         String code = CommonUtils.hanldNull(param.get("code"));
         JSONObject resultData = this.code2Session(code);
         String openId = resultData.getString("openid");
+        returnData.put("openId",openId);
+        if(CommonUtils.isObjEmpty(openId)){
+            return null;
+        }
         String session_key = resultData.getString("session_key");
         User user = userService.getUserInfo(openId);
         if(CommonUtils.objNotEmpty(user)){
             userService.getUserInfo(openId);
+            returnData.put("userInfo",user);
+            return returnData;
         }else{
             String uuid = CommonUtils.getUuid();
             User userSave = new User();
@@ -74,6 +81,8 @@ public class LoginServiceImpl implements LoginService{
             userSave.setCity(CommonUtils.hanldNull(param.get("city")));
             userSave.setSessionKey(session_key);
             userService.save(userSave);
+            returnData.put("userInfo",userSave);
+            return returnData;
         }
     }
 }

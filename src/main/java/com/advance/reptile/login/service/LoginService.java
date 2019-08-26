@@ -18,6 +18,6 @@ public interface LoginService {
      * 对接微信登录
      * @param param
      */
-    void doLogin(Map<String, Object> param) throws IOException;
+    Map<String, Object> doLogin(Map<String, Object> param) throws IOException;
 
 }

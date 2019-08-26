@@ -24,8 +24,7 @@ public class LoginController {
     @RequestMapping("/do")
     public Response doLogin(@RequestParam Map<String, Object> param){
         try {
-            loginService.doLogin(param);
-            return Response.success();
+            return Response.success(loginService.doLogin(param));
         } catch (IOException e) {
             e.printStackTrace();
             return Response.failed();

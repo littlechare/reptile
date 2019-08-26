@@ -207,7 +207,7 @@ public class LoginUtils {
         Map<String, String> mapParam = new HashMap<String, String>();
         mapParam.put("appid", LoginConstant.APP_ID);
         mapParam.put("secret",LoginConstant.APP_SECRET);
-        mapParam.put("js_code","033S9trc1CKORw0Qiksc16Avrc1S9trG");
+        mapParam.put("js_code","043OWSpa0bf5Jx1qlUma01m5qa0OWSph");
         mapParam.put("grant_type","authorization_code");
         String pathUrl = "https://api.weixin.qq.com/sns/jscode2session";
         String result = sendPost(pathUrl, mapParam);
