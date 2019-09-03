@@ -1,5 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.advance.reptile.reader.mapper.UserBookMapper">
-
+    <!-- 书架书籍查询 -->
+    <select id="getBookShelfDatas" resultType="hashMap">
+        SELECT
+            ub.id,
+            ub.book_id,
+            b.book_img,
+            b.`name`
+        FROM
+            user_book ub
+        LEFT JOIN `user` u ON u.id = ub.user_id
+        LEFT JOIN book b ON b.id = ub.book_id
+        WHERE
+            ub.user_id = #{userId} AND ub.status = '1'
+    </select>
 </mapper>

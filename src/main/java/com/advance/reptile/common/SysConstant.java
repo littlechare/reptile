@@ -7,7 +7,7 @@ package com.advance.reptile.common;
 public class SysConstant {
 
     //定义一个用户的Session名称
-    public final static String SESSION_NAME = "user";
+    public final static String SESSION_NAME = "login";
 
     public final static String DATA_STATUS_VALID = "1";
 
@@ -15,5 +15,7 @@ public class SysConstant {
 
     //定义netty连接端口
     public final static int NETTY_PORT = 6868;
+
+    public final static int START_CHARPTER_NUM = 1;
 
 }

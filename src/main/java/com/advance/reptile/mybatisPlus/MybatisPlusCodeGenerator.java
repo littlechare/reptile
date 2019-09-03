@@ -45,7 +45,7 @@ public class MybatisPlusCodeGenerator {
 
         // 全局配置
         GlobalConfig gc = new GlobalConfig();
-        String projectPath = System.getProperty("user.dir");
+        String projectPath = System.getProperty("login.dir");
         gc.setOutputDir(projectPath + "/src/main/java");
         gc.setAuthor("author");
         gc.setOpen(false);
