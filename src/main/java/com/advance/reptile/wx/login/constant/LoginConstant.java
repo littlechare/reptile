@@ -1,4 +1,4 @@
-package com.advance.reptile.login.constant;
+package com.advance.reptile.wx.login.constant;
 
 /**
  * 登录用系统常量

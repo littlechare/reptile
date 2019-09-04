@@ -1,4 +1,4 @@
-package com.advance.reptile.login.service;
+package com.advance.reptile.wx.login.service;
 
 import com.alibaba.fastjson.JSONObject;
 

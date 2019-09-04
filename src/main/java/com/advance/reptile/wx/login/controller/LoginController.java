@@ -1,7 +1,7 @@
-package com.advance.reptile.login.controller;
+package com.advance.reptile.wx.login.controller;
 
 import com.advance.reptile.common.Response;
-import com.advance.reptile.login.service.LoginService;
+import com.advance.reptile.wx.login.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -15,7 +15,7 @@ import java.util.Map;
  * @author advance
  */
 @RestController
-@RequestMapping("/login")
+@RequestMapping("/wx/login")
 public class LoginController {
 
     @Autowired

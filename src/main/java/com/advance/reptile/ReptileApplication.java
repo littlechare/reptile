@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @SpringBootApplication
 @Configuration
+@MapperScan({"com.advance.reptile.*.mapper","com.advance.reptile.wx.*.mapper"})
 public class ReptileApplication implements CommandLineRunner {
 
 	public static void main(String[] args) {

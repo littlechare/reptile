@@ -1,6 +1,6 @@
-package com.advance.reptile.login.utils;
+package com.advance.reptile.wx.login.utils;
 
-import com.advance.reptile.login.constant.LoginConstant;
+import com.advance.reptile.wx.login.constant.LoginConstant;
 import com.alibaba.fastjson.JSON;
 
 import java.io.*;

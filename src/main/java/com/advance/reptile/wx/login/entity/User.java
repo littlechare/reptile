@@ -1,4 +1,4 @@
-package com.advance.reptile.login.entity;
+package com.advance.reptile.wx.login.entity;
 
 import java.time.LocalDateTime;
 import java.io.Serializable;

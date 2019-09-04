@@ -1,6 +1,6 @@
-package com.advance.reptile.login.service;
+package com.advance.reptile.wx.login.service;
 
-import com.advance.reptile.login.entity.User;
+import com.advance.reptile.wx.login.entity.User;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**

@@ -1,6 +1,6 @@
-package com.advance.reptile.login.mapper;
+package com.advance.reptile.wx.login.mapper;
 
-import com.advance.reptile.login.entity.User;
+import com.advance.reptile.wx.login.entity.User;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**

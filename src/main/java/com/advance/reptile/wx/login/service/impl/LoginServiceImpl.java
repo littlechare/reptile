@@ -1,12 +1,12 @@
-package com.advance.reptile.login.service.impl;
+package com.advance.reptile.wx.login.service.impl;
 
 import com.advance.reptile.common.CommonUtils;
 import com.advance.reptile.common.SysConstant;
-import com.advance.reptile.login.constant.LoginConstant;
-import com.advance.reptile.login.entity.User;
-import com.advance.reptile.login.service.IUserService;
-import com.advance.reptile.login.service.LoginService;
-import com.advance.reptile.login.utils.LoginUtils;
+import com.advance.reptile.wx.login.constant.LoginConstant;
+import com.advance.reptile.wx.login.entity.User;
+import com.advance.reptile.wx.login.service.IUserService;
+import com.advance.reptile.wx.login.service.LoginService;
+import com.advance.reptile.wx.login.utils.LoginUtils;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
