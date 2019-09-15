@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 2019-09-04
  */
 @RestController
-@RequestMapping("/wx/catalog")
+@RequestMapping("/api/v1.0/wx/catalog")
 public class CatalogController {
 
     @Autowired

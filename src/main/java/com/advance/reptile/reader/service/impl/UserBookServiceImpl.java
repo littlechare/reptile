@@ -41,7 +41,7 @@ public class UserBookServiceImpl extends ServiceImpl<UserBookMapper, UserBook> i
         String uuid = CommonUtils.getUuid();
         userBook.setId(uuid);
         userBook.setBookId(bookId);
-        userBook.setUserId("zhouz");
+        userBook.setUserId(userId);
         userBook.setChapterNum(num);
         userBook.setChapterId(chapterId);
         super.save(userBook);

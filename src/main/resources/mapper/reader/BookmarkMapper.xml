@@ -2,4 +2,20 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.advance.reptile.reader.mapper.BookmarkMapper">
 
+    <select id="selectBookMarks" resultType="hashMap">
+        SELECT
+            bm.id as id,
+            b.`name`,
+            b.book_img
+        FROM
+            bookmark bm
+        LEFT JOIN book b ON b.id = bm.book_id
+        WHERE
+            1=1
+            AND bm.user_id = #{userId}
+            <if test="bookName != '' and bookName != null">
+                AND b.`name` LIKE CONCAT('%',CONCAT(#{bookName},'%'))
+            </if>
+    </select>
+
 </mapper>

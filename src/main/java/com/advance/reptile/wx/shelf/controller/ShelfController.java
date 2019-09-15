@@ -6,26 +6,30 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/wx/shelf")
+@RequestMapping("/api/v1.0/wx/shelf")
 public class ShelfController {
 
     @Autowired
     private IShelfService shelfService;
 
     @RequestMapping("/books")
-    public Response getBooks(){
+    public Response getBooks(String bookName){
         String userId = "0EFFF6396D10457C83927BB4A2224241";
-        return Response.success(shelfService.getShelfBooks(userId));
+        return Response.success(shelfService.getShelfBooks(userId, bookName));
     }
 
     @RequestMapping("/add/{bookId}")
     public Response addBookShelf(@PathVariable("bookId")String bookId){
-        return Response.success();
+        if(shelfService.addBookShelf("0EFFF6396D10457C83927BB4A2224241",bookId)){
+            return Response.success(true);
+        }else{
+            return Response.success(false);
+        }
     }
 
-    @RequestMapping("/delete")
-    public Response deleteShelfBook(@RequestParam String ids){
-        shelfService.delShelfBooks(ids);
+    @RequestMapping("/delete/{id}")
+    public Response deleteShelfBook(@PathVariable("id") String id){
+        shelfService.delShelfBooks(id);
         return Response.success();
     }
 

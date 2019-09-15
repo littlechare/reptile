@@ -73,5 +73,6 @@ public class Book implements Serializable {
 
     private String remark;
 
+    private String startChapterId;
 
 }
