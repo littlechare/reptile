@@ -5,6 +5,7 @@
     <select id="selectBookMarks" resultType="hashMap">
         SELECT
             bm.id as id,
+            bm.book_id as book_id,
             b.`name`,
             b.book_img
         FROM

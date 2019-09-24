@@ -15,7 +15,7 @@ import java.util.Map;
  * @author advance
  */
 @RestController
-@RequestMapping("/api/v1.0/wx/login")
+@RequestMapping("/wx/login")
 public class LoginController {
 
     @Autowired

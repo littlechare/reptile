@@ -36,7 +36,7 @@ public class ReptileApplication extends SpringBootServletInitializer implements 
 	public void run(String... args) throws Exception {
 		new NettyService();
 	}
-//
+
 //	@Bean
 //	public ServletWebServerFactory servletContainer() {
 //		TomcatServletWebServerFactory tomcat = new TomcatServletWebServerFactory(){
@@ -60,7 +60,7 @@ public class ReptileApplication extends SpringBootServletInitializer implements 
 //		//同时启用http（8080）、https（8443）两个端口
 //		connector.setScheme("http");
 //		connector.setSecure(false);
-//		connector.setPort(3000);
+//		connector.setPort(8000);
 //		connector.setRedirectPort(8443);
 //		return connector;
 //	}
