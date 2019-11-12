@@ -55,7 +55,8 @@ public class WxBookService implements IWxBookService {
         ChapterMogo chapterMogo = new ChapterMogo();
         chapterMogo.setChapterId(chapterId);
         chapterMogo.setCharpterNum(null);
-        return mongoChapterService.getChapter(chapterMogo);
+        chapterMogo = mongoChapterService.getChapter(chapterMogo);
+        return chapterMogo;
     }
 
     @Override
